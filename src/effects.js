@@ -235,7 +235,7 @@ function genFx( type, num ) {
 jQuery.each({
 	slideDown: genFx("show", 1),
 	slideUp: genFx("hide", 1),
-	slideToggle: genFx("toggle", 1),
+	'_slideToggle': genFx("toggle", 1),
 	fadeIn: { opacity: "show" },
 	fadeOut: { opacity: "hide" }
 }, function( name, props ) {
@@ -243,6 +243,23 @@ jQuery.each({
 		return this.animate( props, speed, callback );
 	};
 });
+
+jQuery.fn.slideToggle = function( speed, state, callback ) {
+	if( typeof speed === "boolean" ){
+		callback = state;
+		state = speed;
+		speed = undefined;
+	}
+	if( jQuery.isFunction(state) ){
+		callback = state;
+		state = undefined;
+	}
+	if( typeof state === "boolean" ){
+		return this[ state ? "slideDown" : "slideUp"](speed, callback);
+	} else {
+		return this._slideToggle( speed, callback );
+	}
+};
 
 jQuery.extend({
 	speed: function( speed, easing, fn ) {

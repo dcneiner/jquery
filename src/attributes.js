@@ -123,13 +123,22 @@ jQuery.fn.extend({
 	},
 
 	hasClass: function( selector ) {
-		var className = " " + selector + " ";
-		for ( var i = 0, l = this.length; i < l; i++ ) {
-			if ( (" " + this[i].className + " ").replace(rclass, " ").indexOf( className ) > -1 ) {
-				return true;
+		var classNames;
+		if (typeof selector === "string") {
+			classNames = " " + selector + " ";
+			for ( var i = 0, l = this.length; i < l; i++ ) {
+				if ( (" " + this[i].className + " ").replace(rclass, " ").indexOf( classNames ) > -1 ) {
+					return true;
+				}
+			} 
+		} else if (jQuery.isArray(selector)) {
+			classNames = new RegExp('\\b' + selector.join('\\b|\\b').replace(/\./, '\\.') + '\\b');
+			for ( var i = 0, l = this.length; i < l; i++ ) {
+				if (this[i].className.replace(rclass, " ").match(classNames)) {
+					return true;
+				}
 			}
 		}
-
 		return false;
 	},
 

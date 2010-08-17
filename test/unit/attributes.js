@@ -680,7 +680,7 @@ test("toggleClass(Fucntion[, boolean]) with incoming value", function() {
 });
 
 test("addClass, removeClass, hasClass", function() {
-	expect(14);
+	expect(18);
  
 	var jq = jQuery("<p>Hi</p>"), x = jq[0];
  
@@ -699,13 +699,17 @@ test("addClass, removeClass, hasClass", function() {
  
 	ok( jq.hasClass("hi"), "Check has1" );
 	ok( jq.hasClass("bar"), "Check has2" );
+	ok( jq.hasClass(["hi", "bar", "foo"]), "Check has with an array");
  
-	var jq = jQuery("<p class='class1\nclass2\tcla.ss3\n'></p>");
+	var jq = jQuery("<p class='class1\nclass2\tcla.ss3\nclasss4'></p>");
 	ok( jq.hasClass("class1"), "Check hasClass with carriage return" );
 	ok( jq.is(".class1"), "Check is with carriage return" );
 	ok( jq.hasClass("class2"), "Check hasClass with tab" );
 	ok( jq.is(".class2"), "Check is with tab" );
 	ok( jq.hasClass("cla.ss3"), "Check hasClass with dot" );
+	ok( jq.hasClass(["class1", "class2"]), "Check has with an array and tab/carriage return");
+	ok( jq.hasClass(["cla.ss3"]), "Check has with an array and dot");
+	ok( jq.hasClass(["cla.ss4"]) == false, "Check that has with an array and dot does not match any character");
  
 	jq.removeClass("class2");
 	ok( jq.hasClass("class2")==false, "Check the class has been properly removed" );
